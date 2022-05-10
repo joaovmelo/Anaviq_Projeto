@@ -7,34 +7,27 @@
     android:background="#10002B"
     tools:context=".telaComoJogar">
 
-    <Button
-        android:id="@+id/btnComoJogarVoltar"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:backgroundTint="#9A8C98"
-        android:text="Voltar"
-        android:textAlignment="center"
-        android:textColor="#10002B"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="655dp" />
-
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="16dp"
         android:text="Como jogar"
         android:textColor="#F8F8F8"
         android:textSize="35sp"
-        tools:layout_editor_absoluteX="115dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="9dp"
         android:text="text"
         android:textColor="#F8F8F8"
         android:textSize="35sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="72dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 </androidx.constraintlayout.widget.ConstraintLayout>
