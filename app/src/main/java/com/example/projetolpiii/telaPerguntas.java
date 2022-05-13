@@ -1,45 +1,138 @@
 package com.example.projetolpiii;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.projetolpiii.entidades.Pergunta;
+import com.example.projetolpiii.entidades.Resposta;
 import com.example.projetolpiii.servicos.Consultar;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class telaPerguntas extends AppCompatActivity {
 
+    private TextView txtPergunta;
+    private TextView txtExplicacao;
+    private Button btnA;
+    private Button btnB;
+    private Button btnC;
+    private Button btnD;
+    private ImageView coracao;
+    private ImageView coracao2;
+    private ImageView coracao3;
+    private Chronometer ch;
+
+    String correta = "";
+    int id = 0;
     Random rd = new Random();
     List<Integer> lista = new ArrayList<>();
-    List<Integer> listaIds = Arrays.asList(1, 2, 4, 37, 38, 39, 40, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 55);
+    List<Integer> listaIds = new ArrayList<>();
+    List<Integer> guardarIds = new ArrayList<>();
+    List<ImageView> listaCoracoes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_perguntas);
 
+        listaIds = Arrays.asList(1, 2);
+
+        txtPergunta = (TextView) findViewById(R.id.txtPergunta);
+        txtExplicacao = (TextView) findViewById(R.id.txtExplicacao);
+        btnA = (Button) findViewById(R.id.btnA);
+        btnB = (Button) findViewById(R.id.btnB);
+        btnC = (Button) findViewById(R.id.btnC);
+        btnD = (Button) findViewById(R.id.btnD);
+        coracao = (ImageView) findViewById(R.id.imgCoracao);
+        coracao2 = (ImageView) findViewById(R.id.imgCoracao2);
+        coracao3 = (ImageView) findViewById(R.id.imgCoracao3);
+        ch = (Chronometer) findViewById(R.id.cronometro);
+        ch.setBase(SystemClock.elapsedRealtime());
+        ch.start();
+
+        listaCoracoes.add(coracao);
+        listaCoracoes.add(coracao2);
+        listaCoracoes.add(coracao3);
+
+        btnD.setVisibility(View.INVISIBLE);
+        txtExplicacao.setVisibility(View.INVISIBLE);
+
+        gerarLayout();
+    }
+
+    public void gerarLayout(){
+        if(listaCoracoes.size() == 0){
+            encerrarQuiz();
+        }
+        if(guardarIds.size() == listaIds.size()){
+            encerrarQuiz();
+        }
+
         try {
-            int id = listaIds.get(rd.nextInt(listaIds.size()));
+            id = listaIds.get(rd.nextInt(listaIds.size()));
             List<Pergunta> p = new Consultar(id).execute().get();
 
-            gerarLayout(p);
+            while(guardarIds.contains(p.get(0).getId_pergunta())){
+                id = listaIds.get(rd.nextInt(listaIds.size()));
+                p = new Consultar(id).execute().get();
+            }
+            guardarIds.add(p.get(0).getId_pergunta());
 
+            for(Resposta r : p.get(0).getRespostas()){
+                if(r.getCorreta()){
+                    correta = r.getResposta();
+                }
+            }
+
+            if(p.get(0).getRespostas().size() == 4){
+                btnD.setVisibility(View.VISIBLE);
+                lista = gerarNumeros(p.get(0).getRespostas().size());
+                txtPergunta.setText(p.get(0).getPergunta());
+                btnA.setText(p.get(0).getRespostas().get(lista.get(0)).getResposta());
+                btnB.setText(p.get(0).getRespostas().get(lista.get(1)).getResposta());
+                btnC.setText(p.get(0).getRespostas().get(lista.get(2)).getResposta());
+                btnD.setText(p.get(0).getRespostas().get(lista.get(3)).getResposta());
+            }else{
+                btnD.setVisibility(View.INVISIBLE);
+                lista = gerarNumeros(p.get(0).getRespostas().size());
+                txtPergunta.setText(p.get(0).getPergunta());
+                btnA.setText(p.get(0).getRespostas().get(lista.get(0)).getResposta());
+                btnB.setText(p.get(0).getRespostas().get(lista.get(1)).getResposta());
+                btnC.setText(p.get(0).getRespostas().get(lista.get(2)).getResposta());
+            }
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public void verificar(View view){
+        Button btn = (Button) view;
+        if(btn.getText() == correta){
+            gerarLayout();
+        }else{
+            listaCoracoes.get(0).setVisibility(View.INVISIBLE);
+            listaCoracoes.remove(0);
+            gerarLayout();
         }
     }
 
@@ -54,37 +147,36 @@ public class telaPerguntas extends AppCompatActivity {
         return (ArrayList<Integer>) numeros;
     }
 
-    private void gerarLayout(List<Pergunta> p){
-        final TextView txtPergunta = (TextView) findViewById(R.id.txtPergunta);
-        final TextView txtExplicacao = (TextView) findViewById(R.id.txtExplicacao);
-        final TextView txtA = (TextView) findViewById(R.id.txtA);
-        final TextView txtB = (TextView) findViewById(R.id.txtB);
-        final TextView txtC = (TextView) findViewById(R.id.txtC);
-        final TextView txtD = (TextView) findViewById(R.id.txtD);
-        final Button btnA = (Button) findViewById(R.id.btnA);
-        final Button btnB = (Button) findViewById(R.id.btnB);
-        final Button btnC = (Button) findViewById(R.id.btnC);
-        final Button btnD = (Button) findViewById(R.id.btnD);
-        final TextView txtPergunta5 = (TextView) findViewById(R.id.txtPergunta5);
-
-        if(p.get(0).getRespostas().size() == 4){
-            txtExplicacao.setVisibility(View.INVISIBLE);
-            lista = gerarNumeros(p.get(0).getRespostas().size());
-            txtPergunta.setText(p.get(0).getPergunta());
-            txtA.setText(p.get(0).getRespostas().get(lista.get(0)).getResposta());
-            txtB.setText(p.get(0).getRespostas().get(lista.get(1)).getResposta());
-            txtC.setText(p.get(0).getRespostas().get(lista.get(2)).getResposta());
-            txtD.setText(p.get(0).getRespostas().get(lista.get(3)).getResposta());
+    private void encerrarQuiz(){
+        AlertDialog.Builder encerrar = new AlertDialog.Builder(this);
+        ch.stop();
+        if(listaCoracoes.size() == 0){
+            encerrar.setTitle("Fim de jogo!!!");
+            encerrar.setMessage("Infelizmente voce perdeu todas as suas vidas.\n" +
+                    "Clique em continuar para voltar ao menu principal e tente novamente.");
+            encerrar.setCancelable(false);
+            encerrar.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(telaPerguntas.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+            encerrar.create().show();
         }else{
-            txtD.setVisibility(View.INVISIBLE);
-            txtPergunta5.setVisibility(View.INVISIBLE);
-            btnD.setVisibility(View.INVISIBLE);
-            txtExplicacao.setVisibility(View.INVISIBLE);
-            lista = gerarNumeros(p.get(0).getRespostas().size());
-            txtPergunta.setText(p.get(0).getPergunta());
-            txtA.setText(p.get(0).getRespostas().get(lista.get(0)).getResposta());
-            txtB.setText(p.get(0).getRespostas().get(lista.get(1)).getResposta());
-            txtC.setText(p.get(0).getRespostas().get(lista.get(2)).getResposta());
+            encerrar.setTitle("Voce terminou o quiz!!!");
+            encerrar.setMessage("Você venceu!!!.\n" +
+                    "Tempo decorrido: " + ch.getText() +  "\n" +
+                    "Clique em continuar para voltar ao menu principal.");
+            encerrar.setCancelable(false);
+            encerrar.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(telaPerguntas.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+            encerrar.create().show();
         }
     }
 }
