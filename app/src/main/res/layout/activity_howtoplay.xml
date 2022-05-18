@@ -9,107 +9,107 @@
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="315dp"
-        android:layout_height="128dp"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
         android:fontFamily="@font/adlery_pro_blockletter"
         android:rotation="-15"
         android:text="Bora testar seus conhecimentos?"
         android:textColor="#F8F8F8"
-        android:textSize="48sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.729"
+        app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.844"
+        app:layout_constraintVertical_bias="0.885"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/txtSobre"
-        android:layout_width="360dp"
-        android:layout_height="63dp"
+        android:layout_width="275dp"
+        android:layout_height="125dp"
         android:layout_marginTop="20dp"
         android:text="O jogo consiste basicamente em um Quiz, com perguntas e respostas, sendo sempre pelo menos uma delas correta."
         android:textColor="#F8F8F8"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider4"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.232" />
 
     <TextView
         android:id="@+id/txtSobre2"
-        android:layout_width="360dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="275dp"
+        android:layout_height="125dp"
         android:text="Você deve acertar as perguntas antes de perder todas as vidas para ganhar o jogo."
         android:textColor="#F8F8F8"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSobre"
-        app:layout_constraintVertical_bias="0.067" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.463" />
 
     <TextView
         android:id="@+id/txtEric"
-        android:layout_width="359dp"
-        android:layout_height="108dp"
+        android:layout_width="275dp"
+        android:layout_height="125dp"
         android:layout_marginTop="16dp"
         android:text="Você começa sempre com três vidas, que são representadas por coraçõezinhos no canto superior direito da tela. Quando você erra uma pergunta, você perde uma das vidas."
         android:textColor="#F8F8F8"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.519"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSobre2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.661" />
 
     <View
         android:id="@+id/divider4"
-        android:layout_width="359dp"
+        android:layout_width="309dp"
         android:layout_height="5dp"
         android:background="#f8f8f8"
         android:backgroundTint="#f8f8f8"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
-        app:layout_constraintVertical_bias="0.029" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.183" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="52dp"
         android:text="Como jogar"
         android:textColor="#F8F8F8"
         android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.097" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginBottom="36dp"
         android:text="ANAVIQ"
         android:textColor="#F8F8F8"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView4"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.916" />
 
     <TextView
         android:id="@+id/textView4"
@@ -126,14 +126,14 @@
 
     <ImageButton
         android:id="@+id/btn_return"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.039"
+        app:layout_constraintHorizontal_bias="0.068"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.048"
+        app:layout_constraintVertical_bias="0.094"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
