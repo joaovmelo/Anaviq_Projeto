@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnIniciarJogo = (Button) findViewById(R.id.btnIniciarJogo);
         Button btnComoJogar =  (Button) findViewById(R.id.btnComoJogar);
         Button btnSobre =  (Button) findViewById(R.id.btnSobre);
+        Button btnSair = (Button) findViewById(R.id.btnSair);
 
 
         btnIniciarJogo.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +41,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, telaSobre.class);
                 startActivity(intent);
+            }
+        });
+
+
+        //Botão para fechar a aplicação
+        btnSair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                System.exit(0);
             }
         });
     }
