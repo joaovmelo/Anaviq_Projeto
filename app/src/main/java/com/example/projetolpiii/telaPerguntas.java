@@ -16,11 +16,9 @@ import android.widget.TextView;
 import com.example.projetolpiii.entidades.Pergunta;
 import com.example.projetolpiii.entidades.Resposta;
 import com.example.projetolpiii.servicos.Consultar;
-
-import org.w3c.dom.Text;
+import com.example.projetolpiii.servicos.ConsultarIds;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -28,7 +26,6 @@ import java.util.concurrent.ExecutionException;
 public class telaPerguntas extends AppCompatActivity {
 
     private TextView txtPergunta;
-    private TextView txtExplicacao;
     private Button btnA;
     private Button btnB;
     private Button btnC;
@@ -37,6 +34,7 @@ public class telaPerguntas extends AppCompatActivity {
     private ImageView coracao2;
     private ImageView coracao3;
     private Chronometer ch;
+    List<Pergunta> p;
 
     String correta = "";
     int id = 0;
@@ -51,10 +49,7 @@ public class telaPerguntas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_perguntas);
 
-        listaIds = Arrays.asList(1, 2);
-
         txtPergunta = (TextView) findViewById(R.id.txtPergunta);
-        txtExplicacao = (TextView) findViewById(R.id.txtExplicacao);
         btnA = (Button) findViewById(R.id.btnA);
         btnB = (Button) findViewById(R.id.btnB);
         btnC = (Button) findViewById(R.id.btnC);
@@ -70,14 +65,24 @@ public class telaPerguntas extends AppCompatActivity {
         listaCoracoes.add(coracao2);
         listaCoracoes.add(coracao3);
 
+        btnA.setVisibility(View.INVISIBLE);
+        btnB.setVisibility(View.INVISIBLE);
+        btnC.setVisibility(View.INVISIBLE);
         btnD.setVisibility(View.INVISIBLE);
-        txtExplicacao.setVisibility(View.INVISIBLE);
+
+        try {
+            listaIds = new ConsultarIds().execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         gerarLayout();
     }
 
     public void gerarLayout(){
-        if(listaCoracoes.size() == 0){
+        if(listaCoracoes.isEmpty()){
             encerrarQuiz();
         }
         if(guardarIds.size() == listaIds.size()){
@@ -86,7 +91,7 @@ public class telaPerguntas extends AppCompatActivity {
 
         try {
             id = listaIds.get(rd.nextInt(listaIds.size()));
-            List<Pergunta> p = new Consultar(id).execute().get();
+            p = new Consultar(id).execute().get();
 
             while(guardarIds.contains(p.get(0).getId_pergunta())){
                 id = listaIds.get(rd.nextInt(listaIds.size()));
@@ -101,6 +106,9 @@ public class telaPerguntas extends AppCompatActivity {
             }
 
             if(p.get(0).getRespostas().size() == 4){
+                btnA.setVisibility(View.VISIBLE);
+                btnB.setVisibility(View.VISIBLE);
+                btnC.setVisibility(View.VISIBLE);
                 btnD.setVisibility(View.VISIBLE);
                 lista = gerarNumeros(p.get(0).getRespostas().size());
                 txtPergunta.setText(p.get(0).getPergunta());
@@ -108,13 +116,25 @@ public class telaPerguntas extends AppCompatActivity {
                 btnB.setText(p.get(0).getRespostas().get(lista.get(1)).getResposta());
                 btnC.setText(p.get(0).getRespostas().get(lista.get(2)).getResposta());
                 btnD.setText(p.get(0).getRespostas().get(lista.get(3)).getResposta());
-            }else{
+            }else if(p.get(0).getRespostas().size() == 3){
                 btnD.setVisibility(View.INVISIBLE);
+                btnA.setVisibility(View.VISIBLE);
+                btnB.setVisibility(View.VISIBLE);
+                btnC.setVisibility(View.VISIBLE);
                 lista = gerarNumeros(p.get(0).getRespostas().size());
                 txtPergunta.setText(p.get(0).getPergunta());
                 btnA.setText(p.get(0).getRespostas().get(lista.get(0)).getResposta());
                 btnB.setText(p.get(0).getRespostas().get(lista.get(1)).getResposta());
                 btnC.setText(p.get(0).getRespostas().get(lista.get(2)).getResposta());
+            }else{
+                btnC.setVisibility(View.INVISIBLE);
+                btnD.setVisibility(View.INVISIBLE);
+                btnA.setVisibility(View.VISIBLE);
+                btnB.setVisibility(View.VISIBLE);
+                lista = gerarNumeros(p.get(0).getRespostas().size());
+                txtPergunta.setText(p.get(0).getPergunta());
+                btnA.setText(p.get(0).getRespostas().get(lista.get(0)).getResposta());
+                btnB.setText(p.get(0).getRespostas().get(lista.get(1)).getResposta());
             }
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -132,7 +152,17 @@ public class telaPerguntas extends AppCompatActivity {
         }else{
             listaCoracoes.get(0).setVisibility(View.INVISIBLE);
             listaCoracoes.remove(0);
-            gerarLayout();
+            AlertDialog.Builder encerrar = new AlertDialog.Builder(this);
+            encerrar.setTitle("Resposta correta");
+            encerrar.setMessage(p.get(0).getExplicacao());
+            encerrar.setCancelable(false);
+            encerrar.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    gerarLayout();
+                }
+            });
+            encerrar.create().show();
         }
     }
 
@@ -165,9 +195,7 @@ public class telaPerguntas extends AppCompatActivity {
             encerrar.create().show();
         }else{
             encerrar.setTitle("Voce terminou o quiz!!!");
-            encerrar.setMessage("Você venceu!!!.\n" +
-                    "Tempo decorrido: " + ch.getText() +  "\n" +
-                    "Clique em continuar para voltar ao menu principal.");
+            encerrar.setMessage("Você venceu!!!\nTempo decorrido: " + ch.getText() +"\nClique em continuar para voltar ao menu principal.");
             encerrar.setCancelable(false);
             encerrar.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                 @Override
